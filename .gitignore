@@ -1,5 +1,4 @@
 serviceAccountKey.json
 node_modules
 .env
-public\js\firebase.js
 ok.md
