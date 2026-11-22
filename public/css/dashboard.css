@@ -1,0 +1,849 @@
+:root {
+    --bg: #f4f6fa;
+    --surface: #ffffff;
+    --text: #111827;
+    --text-muted: #6b7280;
+    --border: #dde1e9;
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --accent-text: #ffffff;
+    --error: #dc2626;
+    --focus-ring: rgba(37, 99, 235, 0.35);
+    --shadow: 0 4px 20px rgba(17, 24, 39, 0.08);
+    --c-todo: #38bdf8;
+    --c-doing: #3b82f6;
+    --c-done: #34d399;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.todo {
+    flex: 1;
+    min-width: 0;
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.todo-add {
+    display: flex;
+    gap: 12px;
+}
+.todo-add input {
+    flex: 1;
+    min-width: 0;
+    padding: 14px 16px;
+    font: inherit;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+.todo-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+.progress {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--border);
+    overflow: hidden;
+}
+.progress b {
+    display: block;
+    height: 100%;
+    background: var(--c-done);
+    transition: width 0.2s;
+}
+.todo-filters {
+    display: flex;
+    gap: 8px;
+}
+.todo-filters button {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+.todo-filters button[aria-pressed="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-text);
+}
+.todo-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.todo-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+.todo-item input[type="checkbox"] {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+.todo-text {
+    flex: 1;
+    min-width: 0;
+    padding: 4px 0;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    background: none;
+    border: 0;
+}
+.todo-item.done .todo-text {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+.todo-del {
+    background: none;
+    border: 0;
+    padding: 4px 8px;
+    font-size: 20px;
+    line-height: 1;
+    color: var(--text-muted);
+    border-radius: 6px;
+}
+.todo-del:hover {
+    color: var(--error);
+}
+.todo-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.link-btn {
+    background: none;
+    border: 0;
+    padding: 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+.link-btn:hover {
+    color: var(--accent);
+}
+.link-btn.danger:hover {
+    color: var(--error);
+}
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --bg: #0f1115;
+        --surface: #1a1d23;
+        --text: #e5e7eb;
+        --text-muted: #9ca3af;
+        --border: #343a46;
+        --accent: #3b82f6;
+        --accent-hover: #60a5fa;
+        --accent-text: #0b1220;
+        --error: #f87171;
+        --focus-ring: rgba(96, 165, 250, 0.4);
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+}
+:root[data-theme="dark"] {
+    --bg: #0f1115;
+    --surface: #1a1d23;
+    --text: #e5e7eb;
+    --text-muted: #9ca3af;
+    --border: #343a46;
+    --accent: #3b82f6;
+    --accent-hover: #60a5fa;
+    --accent-text: #0b1220;
+    --error: #f87171;
+    --focus-ring: rgba(96, 165, 250, 0.4);
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family:
+        "Plus Jakarta Sans",
+        system-ui,
+        -apple-system,
+        "Segoe UI",
+        sans-serif;
+    font-weight: 500;
+}
+button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px var(--focus-ring);
+}
+
+.app {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    height: 100%;
+}
+.side {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+.side {
+    min-width: 0;
+    overflow: hidden;
+}
+body.side-closed .app {
+    grid-template-columns: 0 1fr;
+}
+body.side-closed .side {
+    visibility: hidden;
+    border-right: 0;
+}
+
+.logo-btn {
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    margin: -6px;
+    background: none;
+    border: 0;
+    border-radius: 8px;
+    color: inherit;
+}
+.logo-btn:hover i b {
+    background: var(--accent-hover);
+}
+.top-logo {
+    display: none;
+}
+body.side-closed .top-logo {
+    display: flex;
+}
+.top-title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+}
+.top h1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.scrim {
+    display: none;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 80px;
+    padding: 0 28px;
+    font-size: 28px;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border);
+}
+.logo-btn i {
+    display: flex;
+    gap: 3px;
+}
+.logo-btn i b {
+    width: 5px;
+    height: 22px;
+    border-radius: 2px;
+    background: var(--accent);
+}
+.logo-btn i b:nth-child(2) {
+    opacity: 0.75;
+}
+.logo-btn i b:nth-child(3) {
+    opacity: 0.5;
+}
+.logo span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.side h2 {
+    margin: 0;
+    padding: 24px 28px 18px;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+.navs {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-right: 20px;
+}
+.nav button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: none;
+    border: 0;
+    text-align: left;
+    padding: 14px 28px;
+    border-radius: 0 28px 28px 0;
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 15px;
+}
+.nav button:hover {
+    background: var(--bg);
+    color: var(--accent);
+}
+.nav button[aria-current="true"] {
+    background: var(--accent);
+    color: var(--accent-text);
+}
+.nav button.create {
+    color: var(--accent);
+}
+.nav svg {
+    width: 16px;
+    height: 16px;
+    flex: none;
+}
+.nav button span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.nav .badge {
+    margin-left: auto;
+    font-style: normal;
+    font-size: 12px;
+    opacity: 0.8;
+}
+.theme {
+    margin: 16px 20px 24px;
+    padding: 14px;
+    background: var(--bg);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    color: var(--text-muted);
+}
+.switch {
+    width: 40px;
+    height: 20px;
+    border-radius: 10px;
+    border: 0;
+    background: var(--accent);
+    position: relative;
+    padding: 0;
+}
+.switch::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent-text);
+    transition: transform 0.2s;
+}
+:root[data-theme="light"] .switch::after {
+    transform: translateX(20px);
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+}
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    height: 80px;
+    padding: 0 32px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex: none;
+}
+.top h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+}
+.add {
+    background: var(--accent);
+    color: var(--accent-text);
+    border: 0;
+    border-radius: 24px;
+    padding: 14px 22px;
+    font-weight: 700;
+    font-size: 15px;
+    box-shadow: var(--shadow);
+}
+.add:hover {
+    background: var(--accent-hover);
+}
+.more {
+    background: none;
+    border: 0;
+    font-size: 22px;
+    color: var(--text-muted);
+    padding: 6px 12px;
+}
+
+.board {
+    flex: 1;
+    display: flex;
+    gap: 24px;
+    padding: 24px 32px;
+    overflow: auto;
+    align-items: flex-start;
+}
+.col {
+    width: 280px;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.col h3 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.col h3 i {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--dot);
+}
+.card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    width: 100%;
+    box-shadow: var(--shadow);
+}
+.card:hover,
+.card:focus-within {
+    border-color: var(--accent);
+}
+.card-body {
+    display: block;
+    width: 100%;
+    padding: 22px 40px 22px 16px; /* right padding leaves room for × */
+    background: none;
+    border: 0;
+    border-radius: 8px;
+    text-align: left;
+}
+.card-del {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: none;
+    border: 0;
+    padding: 4px 8px;
+    font-size: 20px;
+    line-height: 1;
+    color: var(--text-muted);
+    border-radius: 6px;
+}
+.card-del:hover {
+    color: var(--error);
+}
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.menu-wrap {
+    position: relative;
+}
+.menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 6px);
+    z-index: 10;
+    min-width: 170px;
+    padding: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+.menu button {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    background: none;
+    border: 0;
+    border-radius: 6px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+}
+.menu button:hover {
+    background: var(--bg);
+    color: var(--accent);
+}
+.menu button.danger:hover {
+    color: var(--error);
+}
+.card strong {
+    display: block;
+    font-size: 15px;
+    line-height: 1.5;
+    font-weight: 700;
+}
+.card span {
+    display: block;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+.newcol {
+    width: 280px;
+    flex: none;
+    align-self: stretch;
+    min-height: 400px;
+    margin-top: 39px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text-muted);
+    font-size: 22px;
+    font-weight: 700;
+    opacity: 0.8;
+}
+.newcol:hover {
+    color: var(--accent);
+    opacity: 1;
+}
+.empty {
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 24px 16px;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+@media (max-width: 760px) {
+    .app,
+    body.side-closed .app {
+        grid-template-columns: 1fr;
+    }
+    /* Sidebar becomes an off-canvas drawer */
+    .side {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 30;
+        width: 280px;
+        max-width: 85vw;
+        box-shadow: var(--shadow);
+        transition:
+            transform 0.2s ease,
+            visibility 0.2s;
+    }
+    body.side-closed .side {
+        transform: translateX(-100%);
+        border-right: 1px solid var(--border);
+    }
+    .scrim {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 25;
+        border: 0;
+        padding: 0;
+        background: rgba(0, 0, 0, 0.5);
+    }
+    body.side-closed .scrim {
+        display: none;
+    }
+    .logo {
+        height: 64px;
+        padding: 0 20px;
+        font-size: 20px;
+    }
+    .top {
+        height: 64px;
+        padding: 0 16px;
+    }
+    .top h1 {
+        font-size: 18px;
+    }
+    .add {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+    .board {
+        padding: 16px;
+        gap: 16px;
+    }
+    .col,
+    .newcol {
+        width: 250px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .side {
+        transition: none;
+    }
+}
+
+/* ---------- SortableJS ---------- */
+.cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 60px; /* keeps empty columns droppable */
+}
+.card {
+    cursor: grab;
+}
+.col h3 {
+    cursor: grab;
+    user-select: none;
+}
+.sortable-ghost {
+    opacity: 0.35;
+}
+.sortable-fallback {
+    opacity: 0.95;
+    box-shadow: var(--shadow);
+    cursor: grabbing;
+}
+
+/* ---------- Todo list rows ---------- */
+.todo-text {
+    text-align: left;
+    cursor: pointer;
+    overflow-wrap: anywhere;
+}
+.todo-text:hover {
+    color: var(--accent);
+}
+.todo-item.selected {
+    border-color: var(--accent);
+}
+.todo-sub {
+    flex: none;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+/* ---------- Task detail panel (right side) ---------- */
+.detail {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    width: 380px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    animation: detail-in 0.18s ease-out;
+}
+.detail[hidden] {
+    display: none;
+}
+@keyframes detail-in {
+    from {
+        transform: translateX(24px);
+        opacity: 0;
+    }
+    to {
+        transform: none;
+        opacity: 1;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .detail {
+        animation: none;
+    }
+}
+/* On wide screens, make room instead of covering the list */
+@media (min-width: 1100px) {
+    body.detail-open .main {
+        padding-right: 380px;
+    }
+}
+.detail-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+    padding: 0 24px;
+    border-bottom: 1px solid var(--border);
+    flex: none;
+}
+.detail-head h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+.detail-close {
+    background: none;
+    border: 0;
+    font-size: 26px;
+    line-height: 1;
+    padding: 4px 10px;
+    color: var(--text-muted);
+    border-radius: 6px;
+}
+.detail-close:hover {
+    color: var(--error);
+}
+.detail-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.detail-body label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 12px;
+}
+.detail-body label.detail-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 4px;
+    font-size: 14px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text);
+    cursor: pointer;
+}
+.detail-body input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+.detail-body input:not([type="checkbox"]),
+.detail-body textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    font: inherit;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+.detail-body textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+.detail-sub-head {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+.subtasks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.subtask {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.subtask input:not([type="checkbox"]) {
+    flex: 1;
+    min-width: 0;
+    padding: 8px 10px;
+}
+.subtask.done input:not([type="checkbox"]) {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+.sub-add {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+}
+.sub-add input {
+    flex: 1;
+    min-width: 0;
+}
+.sub-add .add {
+    padding: 10px 16px;
+    font-size: 14px;
+}

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Authentication</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <script type="module" src="js/auth.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="wrapper">
+                <h1>Login</h1>
+                <form class="form">
+                    <label for="username" id="lblUsername">Username</label>
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        placeholder="letters, digits, hyphens, underscores"
+                    />
+                    <label for="email">Email</label>
+                    <input autocomplete="email" type="email" name="email" id="email" placeholder="example123@provider.com" required />
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="••••••••"
+                        required
+                    />
+                    <button class="btnSubmit" type="submit">Login</button>
+                </form>
+                <p class="errorMessage" role="alert"></p>
+                <div>
+                    <p class="authMessage">
+                        Don't have an account?
+                        <a class="toggleAuth" href="#register">Register</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
