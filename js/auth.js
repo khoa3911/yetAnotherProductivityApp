@@ -2,31 +2,25 @@ import {
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
     updateProfile,
-} from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
-import {
-    doc,
-    setDoc,
-    serverTimestamp,
-} from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
-import { auth, db } from "../js/firebase.js";
-
+} from "firebase/auth";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { auth, db } from "./firebase.js";
 // Array of common client-side authentication errors
 const errorMessages = [
-  'auth/app-deleted',
-  'auth/app-not-authorized',
-  'auth/argument-error',
-  'auth/invalid-api-key',
-  'auth/email-already-in-use',
-  'auth/invalid-email',
-  'auth/operation-not-allowed',
-  'auth/weak-password',
-  'auth/user-disabled',
-  'auth/user-not-found',
-  'auth/wrong-password',
-  'auth/too-many-requests',
-  'auth/network-request-failed'
+    "auth/app-deleted",
+    "auth/app-not-authorized",
+    "auth/argument-error",
+    "auth/invalid-api-key",
+    "auth/email-already-in-use",
+    "auth/invalid-email",
+    "auth/operation-not-allowed",
+    "auth/weak-password",
+    "auth/user-disabled",
+    "auth/user-not-found",
+    "auth/wrong-password",
+    "auth/too-many-requests",
+    "auth/network-request-failed",
 ];
-
 
 const authMessage = document.querySelector(".authMessage");
 const usernameField = document.getElementById("username");
@@ -42,7 +36,8 @@ let mode = "login";
 const USERNAME_RE = /^[A-Za-z0-9_-]{3,20}$/;
 
 function showError(message) {
-    errorMessage.textContent = message || "Something went wrong. Please try again.";
+    errorMessage.textContent =
+        message || "Something went wrong. Please try again.";
 }
 function clearError() {
     errorMessage.textContent = "";
@@ -79,7 +74,9 @@ form.addEventListener("submit", async (e) => {
     const username = usernameField.value.trim();
 
     if (mode === "register" && !USERNAME_RE.test(username)) {
-        return showError("Username must be 3–20 characters: letters, digits, hyphens, underscores.");
+        return showError(
+            "Username must be 3–20 characters: letters, digits, hyphens, underscores.",
+        );
     }
 
     submitButton.disabled = true;
@@ -87,7 +84,11 @@ form.addEventListener("submit", async (e) => {
         if (mode === "login") {
             await signInWithEmailAndPassword(auth, email, password);
         } else {
-            const cred = await createUserWithEmailAndPassword(auth, email, password);
+            const cred = await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password,
+            );
             try {
                 await updateProfile(cred.user, { displayName: username });
                 await setDoc(doc(db, "users", cred.user.uid), {

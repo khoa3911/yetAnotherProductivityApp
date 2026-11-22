@@ -1,17 +1,16 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBe5j5HtZbgi0a9krNJW8i-fcGiJIRqIsc",
-    authDomain: "spck-jsi-d8416.firebaseapp.com",
-    projectId: "spck-jsi-d8416",
-    storageBucket: "spck-jsi-d8416.firebasestorage.app",
-    messagingSenderId: "641047074433",
-    appId: "1:641047074433:web:5fb9aeff72261c4b05df80",
-    measurementId: "G-XLZ9MZS25B",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
-
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);

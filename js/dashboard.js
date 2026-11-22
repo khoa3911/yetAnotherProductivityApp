@@ -1,11 +1,6 @@
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
-import {
-    doc,
-    getDoc,
-    setDoc,
-} from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
-import { auth, db } from "../js/firebase.js";
-
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { auth, db } from "./firebase.js";
 var $ = function (id) {
     return document.getElementById(id);
 };
