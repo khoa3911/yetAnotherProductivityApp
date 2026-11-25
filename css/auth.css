@@ -1,0 +1,235 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins";
+    color: #dfe2ee;
+}
+
+body {
+    background-color: #0f131c;
+}
+
+button:hover, #toggle-pass{
+    cursor: pointer;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 555px;
+    background-color: #1c2028;
+    padding-inline: 36px;
+    padding-block: 30px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+/*intro text*/
+.intro {
+    text-align: center;
+}
+.intro h2 {
+    font-size: 36px;
+}
+.intro h3 {
+    font-weight: 300;
+}
+
+/*options*/
+.options {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.options .switch {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #0a0e16;
+    border-radius: 9999px;
+    padding: 5px;
+}
+.options .switch button {
+    flex: 1;
+    border-radius: 9999px;
+    padding-block: 6px;
+    font-size: 16px;
+    border: 0;
+    font-weight: 600;
+}
+.options .switch button {
+    background: 0;
+    color: #dfe2ee;
+    transition: 0.1s;
+}
+.options .switch button:hover {
+    background: #ffffff50;
+    color: #dfe2ee;
+}
+.options .switch button.active {
+    background-color: #4f8eff;
+    color: #002e6a;
+}
+
+.options .auth-options {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.options .auth-options button {
+    flex: 1;
+    border: 0;
+    background-color: #262a33;
+    font-weight: 500;
+    padding-block: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: 0.1s;
+}
+.options .auth-options button:hover {
+    background-color: #262a3350;
+}
+.icons {
+    width: 20px;
+    height: 20px;
+}
+/* Divider */
+.divider {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 24px; /* Space between the lines and the text */
+    box-sizing: border-box;
+}
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1; /* Makes both lines equal width and responsive */
+    height: 2px;
+    background-color: #C2C6D650; /* Subtle muted line color */
+}
+
+.divider-text {
+    color: #C2C6D6; /* Soft light-gray text */
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap; /* Prevents text from wrapping onto two lines */
+}
+/* Form */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.auth-form label {
+    font-weight: 500;
+}
+.auth-form .ph {
+    font-size: 24px;
+}
+.auth-form .auth-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #181C24;
+    padding-inline: 10px;
+    padding-block: 12px;
+    border-radius: 8px;
+    gap: 10px;
+
+}
+.auth-form .auth-input input {
+    width: 100%;
+    border: 0;
+    background: 0;
+    font-size: 20px;
+}
+.password-guide {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.forgot-pass {
+    font-weight: 500;
+    text-decoration: none;
+    color: #ADC6FF;
+}
+.btn {
+    background-color:#4D8EFF;
+    border: 0;
+    font-weight: 600;
+    font-size: 20px;
+    padding-block: 7px;
+    border-radius: 9999px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: 0.3s;
+}
+.btn:hover {
+    background-color: #81AAFF;
+    color: #004395;
+}
+.btn #submit-text {
+    color: #002e6a;
+}
+.ph-arrow-right {
+    font-weight: 700;
+    color: #002e6a;
+}
+#toggle-pass {
+    background: 0;
+    padding: 2px;
+    border-radius: 5px;
+    transition: 0.1s;
+}
+#toggle-pass:hover {
+    background: #ffffff50;
+}
+.auth-message {
+    display: none;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+.auth-message.error {
+    display: block;
+    background-color: #3a1b20;
+    color: #ffb4ab;
+}
+.auth-message.success {
+    display: block;
+    background-color: #12301f;
+    color: #8fe3ae;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

@@ -1,9 +1,11 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
+import {
+    doc,
+    getDoc,
+    setDoc,
+} from "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
 import { auth, db } from "./firebase.js";
-var $ = function (id) {
-    return document.getElementById(id);
-};
+const $ = (id) => document.getElementById(id);
 function esc(s) {
     return String(s).replace(/[&<>"]/g, function (c) {
         return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
@@ -120,7 +122,7 @@ function save() {
 
 onAuthStateChanged(auth, async function (user) {
     if (!user) {
-        window.location.href = "index.html"; // not logged in
+        window.location.href = "auth.html"; // not logged in
         return;
     }
     uid = user.uid;
