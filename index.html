@@ -6,7 +6,7 @@
             name="viewport"
             content="width=device-width, initial-scale=1, viewport-fit=cover"
         />
-        <title>Kanban</title>
+        <title>Dashboard</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
             href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap"
@@ -28,7 +28,27 @@
                     >
                         <i><b></b><b></b><b></b></i>
                     </button>
-                    <span id="username"></span>
+                    <div class="menu-wrap user-wrap">
+                        <button
+                            class="user-btn"
+                            id="userBtn"
+                            aria-haspopup="menu"
+                            aria-expanded="false"
+                            aria-controls="userMenu"
+                        >
+                            <span id="username"></span>
+                        </button>
+                        <div
+                            class="menu user-menu"
+                            id="userMenu"
+                            role="menu"
+                            hidden
+                        >
+                            <button role="menuitem" class="danger" id="signOut">
+                                Sign out
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="navs">
                     <h2 id="boardCount"></h2>

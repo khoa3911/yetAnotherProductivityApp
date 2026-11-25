@@ -269,7 +269,7 @@ body.side-closed .top-logo {
     gap: 12px;
     height: 80px;
     padding: 0 28px;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 700;
     border-bottom: 1px solid var(--border);
 }
@@ -288,11 +288,6 @@ body.side-closed .top-logo {
 }
 .logo-btn i b:nth-child(3) {
     opacity: 0.5;
-}
-.logo span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 .side h2 {
     margin: 0;
@@ -538,6 +533,53 @@ body.side-closed .top-logo {
 }
 .menu button.danger:hover {
     color: var(--error);
+}
+/* ---------- User menu (sidebar header) ---------- */
+.user-wrap {
+    min-width: 0;
+    flex: 1;
+}
+.user-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+    padding: 6px 10px;
+    margin: -6px -10px;
+    background: none;
+    border: 0;
+    border-radius: 8px;
+    font: inherit;
+    color: inherit;
+    width: calc(100% + 20px);
+}
+.user-btn:hover {
+    background: var(--bg);
+}
+.user-btn::after {
+    content: "";
+    flex: none;
+    width: 7px;
+    height: 7px;
+    border-right: 2px solid var(--text-muted);
+    border-bottom: 2px solid var(--text-muted);
+    transform: translateY(-2px) rotate(45deg);
+    transition: transform 0.15s;
+}
+.user-btn span {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+}
+.user-btn[aria-expanded="true"]::after {
+    transform: translateY(2px) rotate(-135deg);
+}
+.user-menu {
+    left: 0;
+    right: auto;
 }
 .card strong {
     display: block;

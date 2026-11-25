@@ -1,4 +1,7 @@
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
+import {
+    onAuthStateChanged,
+    signOut,
+} from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
 import {
     doc,
     getDoc,
@@ -22,9 +25,15 @@ function askName(message, initial) {
     return v === null ? null : v.trim().slice(0, MAX_NAME);
 }
 
-function closeMenu() {
-    $("boardMenu").hidden = true;
-    $("boardMenuBtn").setAttribute("aria-expanded", "false");
+function closeMenu(keepBtnId) {
+    [
+        ["boardMenu", "boardMenuBtn"],
+        ["userMenu", "userBtn"],
+    ].forEach(function (p) {
+        if (p[1] === keepBtnId) return;
+        $(p[0]).hidden = true;
+        $(p[1]).setAttribute("aria-expanded", "false");
+    });
 }
 /* ---------- Sidebar toggle ---------- */
 var narrow = window.matchMedia("(max-width: 760px)");
@@ -106,18 +115,39 @@ var openId = null; // id of the todo item shown in the detail panel
 var uid = null;
 var saveTimer = null;
 
+var savePending = false;
+
+function persist() {
+    return setDoc(doc(db, "users", uid, "data", "kanban"), {
+        boards: boards,
+        lists: lists,
+    }).catch(function (err) {
+        console.error("Save failed:", err);
+    });
+}
+
 // Debounced save: waits 500ms after the last change
 function save() {
     if (!uid) return;
     clearTimeout(saveTimer);
+    savePending = true;
     saveTimer = setTimeout(function () {
-        setDoc(doc(db, "users", uid, "data", "kanban"), {
-            boards: boards,
-            lists: lists,
-        }).catch(function (err) {
-            console.error("Save failed:", err);
-        });
+        savePending = false;
+        persist();
     }, 500);
+}
+
+async function doSignOut() {
+    clearTimeout(saveTimer);
+    if (savePending) {
+        savePending = false;
+        await persist();
+    }
+    try {
+        await signOut(auth); // onAuthStateChanged redirects to auth.html
+    } catch (err) {
+        console.error("Sign out failed:", err);
+    }
 }
 
 onAuthStateChanged(auth, async function (user) {
@@ -664,7 +694,7 @@ function render() {
 document.addEventListener("click", function (e) {
     if (dragging) return; // ignore the click that ends a drag
     var el = e.target.closest("button");
-    if (!el || el.id !== "boardMenuBtn") closeMenu(); // click elsewhere closes menu
+    closeMenu(el ? el.id : null); // click elsewhere closes menu
     if (!el) return;
     var d = el.dataset;
 
@@ -795,6 +825,13 @@ document.addEventListener("click", function (e) {
             "data-theme",
             r.getAttribute("data-theme") === "dark" ? "light" : "dark",
         );
+    } else if (el.id === "userBtn") {
+        var um = $("userMenu");
+        var openUser = um.hidden;
+        um.hidden = !openUser;
+        el.setAttribute("aria-expanded", String(openUser));
+    } else if (el.id === "signOut") {
+        doSignOut();
     }
 });
 
